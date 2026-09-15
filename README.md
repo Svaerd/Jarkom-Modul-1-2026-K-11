@@ -21,49 +21,49 @@ Konfigurasi Alice:
 ```
 auto eth0
 iface eth0 inet static
-address 10.10.1.2
+address 10.69.1.2
 netmask 255.255.255.0
-gateway 10.10.1.1
+gateway 10.69.1.1
 ```
 
 Konfigurasi Mika:
 ```
 auto eth0
 iface eth0 inet static
-address 10.10.1.3
+address 10.69.1.3
 netmask 255.255.255.0
-gateway 10.10.1.1
+gateway 10.69.1.1
 ```
 
 Konfigurasi Chisa:
 ```
 auto eth0
 iface eth0 inet static
-address 10.10.2.2
+address 10.69.2.2
 netmask 255.255.255.0
-gateway 10.10.2.1
+gateway 10.69.2.1
 ```
 
 Konfigurasi Knight:
 ```
 auto eth0
 iface eth0 inet static
-address 10.10.3.2
+address 10.69.3.2
 netmask 255.255.255.0
-gateway 10.10.2.1
+gateway 10.69.2.1
 ```
 
 Konfigurasi Eiri:
 ```
 auto eth0
 iface eth0 inet static
-address 10.10.3.3
+address 10.69.3.3
 netmask 255.255.255.0
-gateway 10.10.3.1
+gateway 10.69.3.1
 ```
 
 Testing `ping` dari `Knight` ke `Eiri`:
-![[image-5.png]]
+![[image-21.png]]
 
 ## 4. Menghubungkan Clients ke Internet
 ### Konfigurasi Source NAT
@@ -81,17 +81,17 @@ iface eth0 inet dhcp
   
 auto eth1
 iface eth1 inet static
-		address 10.10.1.1
+		address 10.69.1.1
 		netmask 255.255.255.0
 
 auto eth2
 iface eth2 inet static
-		address 10.10.2.1
+		address 10.69.2.1
 		netmask 255.255.255.0
 
 auto eth3
 iface eth3 inet static
-		address 10.10.3.1
+		address 10.69.3.1
 		netmask 255.255.255.0
 ```
 
@@ -106,9 +106,9 @@ Untuk memastikan konfigurasi DNS Resolver selalu benar, tambahkan konfigurasi ba
 ```
 auto eth0
 iface eth0 inet static
-    address 10.10.1.2
+    address 10.69.1.2
     netmask 255.255.255.0
-    gateway 10.10.1.1
+    gateway 10.69.1.1
     dns-nameservers 8.8.8.8 1.1.1.1 #---> konfigurasi DNS Resolver
 ```
 
@@ -116,9 +116,9 @@ Atau bisa juga seperti ini:
 ```
 auto eth0
 iface eth0 inet static
-    address 10.10.1.2
+    address 10.69.1.2
     netmask 255.255.255.0
-    gateway 10.10.1.1
+    gateway 10.69.1.1
 	up echo "nameserver 8.8.8.8" >> /etc/resolv.conf #---> konfigurasi DNS Resolver
 	up echo "nameserver 1.1.1.1" >> /etc/resolv.conf #---> konfigurasi DNS Resolver
 ```
@@ -146,7 +146,7 @@ jalankan script:
 ```
 
 Output:
-![[image-4.png]]
+![[image-22.png]]
 
 ## 6. Deteksi traffic
 Jalankan [Generator traffic](https://drive.google.com/drive/folders/1ZjFvWIjvAQAjE9pPthm7V_bGyaSt93lY?usp=sharing):
@@ -168,3 +168,112 @@ Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` :
 ## 9. Uji coba akses FTP Server
 
 ## 10. Uji ketahanan koneksi
+
+
+## 13.
+![[image-12.png]]
+![[image-13.png]]
+
+## 14. Brute force form login web Alice
+
+## 15. Keyboard USB berbahaya
+Filte wireshark: `usb.bDescriptorType == 1
+- Vendor ID: Logitech, Inc. (0x046d)
+- Product ID: Keyboard K120 (0xc31c)
+- Alamat nomor device USB: 7
+- Pesan rahasia yg dicuri:
+```sh
+tshark -r soal15_wired_usb_hid.pcap -Y "usb.capdata" -T fields -e usb.capdata > keystrokes.txt
+```
+
+```txt
+cat keystrokes.txt
+02001a0000000000
+0000000000000000
+00000c0000000000
+0000000000000000
+0000150000000000
+0000000000000000
+0000080000000000
+0000000000000000
+0000070000000000
+0000000000000000
+02002d0000000000
+0000000000000000
+0200130000000000
+0000000000000000
+0000150000000000
+0000000000000000
+0000120000000000
+0000000000000000
+0000170000000000
+0000000000000000
+0000120000000000
+0000000000000000
+0000060000000000
+0000000000000000
+0000120000000000
+0000000000000000
+00000f0000000000
+0000000000000000
+02002d0000000000
+0000000000000000
+0000240000000000
+0000000000000000
+02002d0000000000
+0000000000000000
+00000c0000000000
+0000000000000000
+0000160000000000
+0000000000000000
+02002d0000000000
+0000000000000000
+0000040000000000
+0000000000000000
+00000f0000000000
+0000000000000000
+00000c0000000000
+0000000000000000
+0000190000000000
+0000000000000000
+0000080000000000
+0000000000000000
+02002d0000000000
+0000000000000000
+00001f0000000000
+0000000000000000
+0000270000000000
+0000000000000000
+00001f0000000000
+0000000000000000
+0000230000000000
+0000000000000000
+```
+
+![[image-14.png]]
+
+## 16. 
+
+## 17. Malware di node Alice
+Filter: `http.request.method == "GET"`
+- Nama Domain tempat malware diunduh: `cdnstore.io\r\n`
+![[image-15.png]]
+
+- IP Address attacker: `203.0.113.55`
+![[image-16.png]]
+
+- Nama file malware: navi_agent.exe
+![[image-17.png]]
+
+- Kode status HTTP: `200`
+![[image-18.png]]
+
+## 19. Email Blackmail
+- Alamat Email Korban: mika@internal.wired
+![[image-20.png]]
+
+![[image-24.png]]
+- Password bocor: `pr0tocol_7_user`
+- Jenis Malware: `ransomware`
+- Batas waktu: `72 Hours (3 days)`
+- MailClientID: `7719980706`
