@@ -182,7 +182,131 @@ Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` : ![[image-10
 
 ## 7. Setup FTP Server
 
-## 8. Upload file ke FTP Server Chisa
+Di node Chisa
+
+```sh
+apk add vsftpd
+```
+
+Install vsftpd sebagai FTP Server di node Chisa
+
+```
+mkdir -p /var/wired/data
+chmod 755 /var/wired/data
+```
+
+Buat folder sharing untuk diakses ke FTP usernya dan beri akses 755 sebagai akses penuh
+
+```sh
+adduser -D -h /var/wired/data alice
+echo "alice:password123" | chpasswd
+
+adduser -D -h /var/wired/data mika
+echo "mika:password123" | chpasswd
+
+adduser -D -h /var/wired/data eiri
+echo "eiri:password123" | chpasswd
+
+```
+
+Setelah itu buat user di node Chisa sebagai user yang bisa akses ke FTP nantinya, set password
+sederhana
+
+```sh
+nano /etc/vsftpd/vsftpd.conf
+
+#config vsftpd.conf
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+chroot_local_user=YES
+allow_writeable_chroot=YES
+userlist_enable=YES
+userlist_file=/etc/vsftpd.user_list
+userlist_deny=NO
+seccomp_sandbox=NO
+
+mkdir -p /etc/vsftpd/user_conf
+
+echo "write_enable=YES" > /etc/vsftpd/user_conf/alice
+echo "write_enable=NO" > /etc/vsftpd/user_conf/mika
+
+echo "user_config_dir=/etc/vsftpd/user_conf" >> /etc/vsftpd/vsftpd.conf
+
+chown alice:alice /var/wired/data
+chmod 755 /var/wired/data
+
+```
+
+Setup konfigurasi untuk hak akses di FTP dan registrasi ke usernya
+
+```sh
+vsftpd /etc/vsftpd/vsftpd.conf &
+```
+
+Jalankan FTP Servernya di background
+
+Beralih node Alice
+
+```sh
+apk add lftp
+```
+
+Install lftp untuk FTP Client
+
+```sh
+lftp -u alice,password123 10.69.2.2
+```
+
+Masuk ke FTP Server Chisa melalui lftp dengan IP Chisa
+
+```sh
+lftp alice@10.69.2.2:/> ls
+```
+
+Cek koneksi dengan FTP melalui command ls
+
+Keluar dari console FTP , sekarang buat file `signal_alice.txt`
+
+```sh
+touch signal_alice.txt
+
+nano signal_alice.txt
+```
+
+Login lagi ke console FTP, jalankan perintah menambahkan file ke FTP Server dengan `put`
+
+```sh
+put signal_alice.txt
+```
+
+Jika berhasil maka akan keluar pesan seperti `205 bytes transferred`
+
+## 8. Upload file ke FTP Server Chisa dari Knight
+
+Di node Knight, masuk ke FTP Chisa menggunakan akun dan kredensial Alice
+
+```sh
+lftp -u alice,password123 10.69.2.2
+```
+
+Keluar dari FTP , buat file `knight_report.txt` sesuai dengan ketentuan soal
+
+```sh
+touch knight_report.txt
+
+nano knight_report.txt
+```
+
+Start Capture dari Chisa untuk membuka Wireshark, kemudian baru masuk ke FTP lagi dan jalankan
+perintah
+
+```sh
+put knight_report.txt
+```
+
+Lihat dan analisa lalu lintas packet melalui Wireshark
 
 ## 9. Uji coba akses FTP Server
 
