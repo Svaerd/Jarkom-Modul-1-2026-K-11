@@ -300,7 +300,11 @@ Lihat dan analisa lalu lintas packet melalui Wireshark
 
 ## 10. Uji ketahanan koneksi
 
-## 13.
+## 11. Bukti kelemahan protokol Telnet
+
+## 12. Pemindaian Port
+
+## 13. Koneksi OpenSSH
 ![image-12](Attachments/image-12.png)
 ![image-13](Attachments/image-13.png)
 
@@ -429,7 +433,7 @@ Kemudian `USB HID` ini kita decode, sehingga didapat pesan sebagai berikut: `Wir
 Keempat data tadi selanjutnya diverifikasi menggunakan `nc`:
 ![[image-25.png]]
 
-## 16.
+## 16. Analisis lalu lintas FTP
 
 ```txt
 ftp
@@ -472,7 +476,7 @@ Filter: `http.request.method == "GET"`
 - Kode status HTTP: `200`
 ![image-18](Attachments/image-18.png)
 
-## 18.
+## 18. Analisis serangan protokol SMB
 
 ```txt
 smb || smb2
@@ -499,7 +503,7 @@ smb2.filename contains ".exe"
 - Batas waktu: `72 Hours (3 days)`
 - MailClientID: `7719980706`
 
-## 20.
+## 20. Nice try Eiri
 
 ```txt
 tls.handshake.type == 2
