@@ -1,28 +1,23 @@
 # Jarkom-Modul-1-2026-K-11
 
 ## 1. Mempersiapkan pembangunan The Wired
-
-![[image.png]]
-
+![image 1](Attachments/image%201.png)
 ## 2. Konfigurasi Router Lain agar bisa terhubung ke internet
-
-![[image-1.png]]
+![image-1](Attachments/image-1.png)
 
 Konfigurasi Router Lain:
-
 ```
 auto eth0
 iface eth0 inet dhcp
 ```
+![image-2](Attachments/image-2.png)
 
-![[image-2.png]]
-
-Testing dengan `ping`: ![[image-3.png]]
+Testing dengan `ping`:
+![image-3](Attachments/image-3.png)
 
 ## 3. Menghubungkan Client satu sama lain
 
 Konfigurasi Alice:
-
 ```
 auto eth0
 iface eth0 inet static
@@ -32,7 +27,6 @@ gateway 10.69.1.1
 ```
 
 Konfigurasi Mika:
-
 ```
 auto eth0
 iface eth0 inet static
@@ -42,7 +36,6 @@ gateway 10.69.1.1
 ```
 
 Konfigurasi Chisa:
-
 ```
 auto eth0
 iface eth0 inet static
@@ -52,7 +45,6 @@ gateway 10.69.2.1
 ```
 
 Konfigurasi Knight:
-
 ```
 auto eth0
 iface eth0 inet static
@@ -62,7 +54,6 @@ gateway 10.69.2.1
 ```
 
 Konfigurasi Eiri:
-
 ```
 auto eth0
 iface eth0 inet static
@@ -71,7 +62,8 @@ netmask 255.255.255.0
 gateway 10.69.3.1
 ```
 
-Testing `ping` dari `Knight` ke `Eiri`: ![[image-21.png]]
+Testing `ping` dari `Knight` ke `Eiri`:
+![image-21](Attachments/image-21.png)
 
 ## 4. Menghubungkan Clients ke Internet
 
@@ -139,12 +131,11 @@ iface eth0 inet static
 	up echo "nameserver 1.1.1.1" >> /etc/resolv.conf #---> konfigurasi DNS Resolver
 ```
 
-`ping` ke google.com: ![[image-6.png]]
+`ping` ke google.com:
+![image-6](Attachments/image-6.png)
 
 ## 5. Script verifikasi (Lain)
-
-[[cek_status.sh]]:
-
+[cek_status.sh](cek_status.sh):
 ```sh
 #!/bin/bash
 
@@ -153,32 +144,29 @@ iptables -t nat -L -v -n
 ```
 
 buat script menjadi executable:
-
 ```sh
 chmod +x cek_status.sh
 ```
 
 jalankan script:
-
 ```sh
 ./cek_status.sh
 ```
-
-Output: ![[image-22.png]]
+Output:
+![image-22](Attachments/image-22.png)
 
 ## 6. Deteksi traffic
 
-Jalankan
-[Generator traffic](https://drive.google.com/drive/folders/1ZjFvWIjvAQAjE9pPthm7V_bGyaSt93lY?usp=sharing):
-
+Jalankan [Generator traffic](https://drive.google.com/drive/folders/1ZjFvWIjvAQAjE9pPthm7V_bGyaSt93lY?usp=sharing):
 ```sh
 chmod +x traffic_protocol7.sh && ./traffic_protocol7.sh
 ```
+Output:
+![image-7](Attachments/image-7.png)
 
-Output: ![[image-7.png]]
-
-Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` : ![[image-10.png]]
-![[image-11.png]]
+Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` :
+![image-10](Attachments/image-10.png)
+![image-11](Attachments/image-11.png)
 
 ## 7. Setup FTP Server
 
@@ -189,8 +177,8 @@ Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` : ![[image-10
 ## 10. Uji ketahanan koneksi
 
 ## 13.
-
-![[image-12.png]] ![[image-13.png]]
+![image-12](Attachments/image-12.png)
+![image-13](Attachments/image-13.png)
 
 ## 14. Brute force form login web Alice
 
@@ -310,7 +298,7 @@ cat keystrokes.txt
 0000000000000000
 ```
 
-![[image-14.png]]
+![image-14](Attachments/image-14.png)
 
 ## 16.
 
@@ -343,13 +331,17 @@ ftp
 
 Filter: `http.request.method == "GET"`
 
-- Nama Domain tempat malware diunduh: `cdnstore.io\r\n` ![[image-15.png]]
+- Nama Domain tempat malware diunduh: `cdnstore.io\r\n`
+![image-15](Attachments/image-15.png)
 
-- IP Address attacker: `203.0.113.55` ![[image-16.png]]
+- IP Address attacker: `203.0.113.55`
+![image-16](Attachments/image-16.png)
 
-- Nama file malware: navi_agent.exe ![[image-17.png]]
+- Nama file malware: navi_agent.exe
+![image-17](Attachments/image-17.png)
 
-- Kode status HTTP: `200` ![[image-18.png]]
+- Kode status HTTP: `200`
+![image-18](Attachments/image-18.png)
 
 ## 18.
 
@@ -369,11 +361,10 @@ smb2.filename contains ".exe"
 - Nama file malware : wired_trojan_payload.exe
 
 ## 19. Email Blackmail
+- Alamat Email Korban: mika@internal.wired
+![image-20](Attachments/image-20.png)
 
-- Alamat Email Korban: mika@internal.wired ![[image-20.png]]
-
-![[image-24.png]]
-
+![image-24](Attachments/image-24.png)
 - Password bocor: `pr0tocol_7_user`
 - Jenis Malware: `ransomware`
 - Batas waktu: `72 Hours (3 days)`
