@@ -223,12 +223,14 @@ http.request.method == "POST"
 
 ## 15. Keyboard USB berbahaya
 
-Filte wireshark: `usb.bDescriptorType == 1
+Filter wireshark: `usb.bDescriptorType == 1
+
+![image-14](Attachments/image-14.png)
 
 - Vendor ID: Logitech, Inc. (0x046d)
 - Product ID: Keyboard K120 (0xc31c)
 - Alamat nomor device USB: 7
-- Pesan rahasia yg dicuri:
+- Pesan rahasia yg dicuri: `Wired_Protocol_7_is_alive_2026`
 
 ```sh
 tshark -r soal15_wired_usb_hid.pcap -Y "usb.capdata" -T fields -e usb.capdata > keystrokes.txt
@@ -298,7 +300,10 @@ cat keystrokes.txt
 0000000000000000
 ```
 
-![image-14](Attachments/image-14.png)
+Kemudian `USB HID` ini kita decode, sehingga didapat pesan sebagai berikut: `Wired_Protocol_7_is_alive_2026`.
+
+Keempat data tadi selanjutnya diverifikasi menggunakan `nc`:
+![[image-25.png]]
 
 ## 16.
 
