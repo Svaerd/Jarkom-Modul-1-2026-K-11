@@ -13,9 +13,18 @@
 
 ![image 1](Attachments/image%201.png)
 
+Berdasarkan ketentuan yang diberikan, terdapat 6 node client dalam jaringan ini, yaitu Alice dan
+Mike yang terhubung ke Switch 1, Chisa yang terhubung ke Switch 2, serta Knight dan Eiri yang
+terhubung ke Switch 3. Seluruh node client tersebut menggunakan alamat IP dari jaringan AlpineNet.
+Selanjutnya, semua switch dihubungkan ke sebuah router bernama "Lain" yang juga merupakan bagian
+dari AlpineNet. Router ini kemudian dihubungkan ke internet melalui mekanisme DHCP.
+
 ## 2. Konfigurasi Router Lain agar bisa terhubung ke internet
 
 ![image-1](Attachments/image-1.png)
+
+Pada tahap ini, dilakukan konfigurasi pada Router Lain agar dapat terhubung ke internet. Konfigurasi
+dilakukan pada file konfigurasi jaringan dengan menambahkan pengaturan berikut:
 
 Konfigurasi Router Lain:
 
@@ -25,6 +34,10 @@ iface eth0 inet dhcp
 ```
 
 ![image-2](Attachments/image-2.png)
+
+Setelah konfigurasi diterapkan, dilakukan pengujian konektivitas menggunakan perintah ping untuk
+memastikan bahwa Router Lain telah berhasil terhubung ke internet. Hasil pengujian menunjukkan bahwa
+koneksi berhasil, yang ditandai dengan adanya balasan dari host tujuan.
 
 Testing dengan `ping`: ![image-3](Attachments/image-3.png)
 
