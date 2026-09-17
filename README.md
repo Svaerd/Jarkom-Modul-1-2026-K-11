@@ -596,6 +596,8 @@ ftp
 
 - File size knight : 524288 bytes
 
+![image-49.png](Attachments/image-49.png) ![image-50.png](Attachments/image-50.png)
+
 ![image-36.png](Attachments/image-36.png)
 
 ## 17. Download malware di node Alice
@@ -627,6 +629,8 @@ smb2.filename contains ".exe"
 
 - Folder tujuan penyimpanan : System32
 - Nama file malware : wired_trojan_payload.exe
+
+![image-48.png](Attachments/image-48.jpeg)
 
 ![image-37.png](Attachments/image-37.png)
 
@@ -670,5 +674,7 @@ http.request
 
 - Request method : HEAD
 - Request URi : /
+
+![image-49.jpg](Attachments/image-49.jpeg)
 
 ![image-45.png](Attachments/image-45.png)
