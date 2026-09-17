@@ -473,6 +473,8 @@ tcp.dstport == 8080 &&
 http.request.method == "POST"
 ```
 
+![[image-31.png]]
+
 ## 15. Keyboard USB berbahaya
 
 Filter wireshark: `usb.bDescriptorType == 1
@@ -584,17 +586,24 @@ ftp
 
 - File size knight : 524288 bytes
 
-## 17. Malware di node Alice
+![[image-36.png]]
+
+## 17. Download malware di node Alice
 
 Filter: `http.request.method == "GET"`
 
-- Nama Domain tempat malware diunduh: `cdnstore.io\r\n` ![image-15](Attachments/image-15.png)
+- Nama Domain tempat malware diunduh: `wired-update.net`:
+![[image-26.png]]
 
-- IP Address attacker: `203.0.113.55` ![image-16](Attachments/image-16.png)
+
+- IP Address attacker: `203.0.113.42`:
+![[image-29.png]]
 
 - Nama file malware: navi_agent.exe ![image-17](Attachments/image-17.png)
 
 - Kode status HTTP: `200` ![image-18](Attachments/image-18.png)
+Verifikasi dengan `nc`:
+![[image-30.png]]
 
 ## 18. Analisis serangan protokol SMB
 
@@ -613,9 +622,12 @@ smb2.filename contains ".exe"
 - Folder tujuan penyimpanan : System32
 - Nama file malware : wired_trojan_payload.exe
 
+![[image-37.png]]
+
 ## 19. Email Blackmail
 
-- Alamat Email Korban: mika@internal.wired ![image-20](Attachments/image-20.png)
+- Alamat Email Korban: victim@protocol7.co.jp
+![[image-39.png]]
 
 ![image-24](Attachments/image-24.png)
 
@@ -623,6 +635,8 @@ smb2.filename contains ".exe"
 - Jenis Malware: `ransomware`
 - Batas waktu: `72 Hours (3 days)`
 - MailClientID: `7719980706`
+![[image-40.png]]
+
 
 ## 20. Nice try Eiri
 
@@ -653,3 +667,5 @@ http.request
 
 - Request method : HEAD
 - Request URi : /
+
+![[image-38.png]]
