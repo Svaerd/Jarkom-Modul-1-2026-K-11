@@ -343,7 +343,10 @@ perintah
 put knight_report.txt
 ```
 
+![](./Attachments/image.webp)
+
 Lihat dan analisa lalu lintas packet melalui Wireshark
+![](./Attachments/screen-toolkit-annotate.webp)
 
 ## 9. Uji coba akses FTP Server
 
