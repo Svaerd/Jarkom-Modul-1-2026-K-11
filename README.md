@@ -165,7 +165,11 @@ iface eth0 inet static
 
 ## 5. Script verifikasi (Lain)
 
-[cek_status.sh](cek_status.sh):
+Untuk mengecek apakah setelah di restart masih sama konfigurasinya dan masih terhubung maka buat
+script [cek_status.sh](cek_status.sh):
+
+disimpan di root yang berisi dibawah ini, berfungsi untuk menampilkan ringkasan interface dan status
+tabel NAT
 
 ```sh
 #!/bin/bash
@@ -190,8 +194,13 @@ Output: ![image-22](Attachments/image-22.png)
 
 ## 6. Deteksi traffic
 
-Jalankan
+Kita disuruh untuk mengirimkan traffic dan kemudian dianalisis menggunakan Wireshark
+
+Script yang disediakan
 [Generator traffic](https://drive.google.com/drive/folders/1ZjFvWIjvAQAjE9pPthm7V_bGyaSt93lY?usp=sharing):
+
+script berisi ping dan dns lookup, hanya sebagai upaya cek apakah ping berhasil dan membuka info
+beberapa domain melalui command `dig`
 
 ```sh
 chmod +x traffic_protocol7.sh && ./traffic_protocol7.sh
@@ -258,6 +267,12 @@ echo "user_config_dir=/etc/vsftpd/user_conf" >> /etc/vsftpd/vsftpd.conf
 
 chown alice:alice /var/wired/data
 chmod 755 /var/wired/data
+
+touch /etc/vsftpd.user_list
+printf "alice\nmika\n" > /etc/vsftpd.user_list
+
+
+cat /etc/vsftpd.user_list
 
 ```
 
@@ -427,10 +442,32 @@ Capture packet menggunakan Wireshark dan ditemukan packet dengan protocol Telnet
 
 ![image-29](Attachments/image-29.jpeg)
 
+Ditemukan bahwa instruksi melalui telnet dapat dibaca atau disadap tanpa melakukan enkripsi dan juga
+data nya terkirim karakter per karakter melalui fitur Wireshark Follow TCP Stream
+
 ## 12. Pemindaian Port
 
 Alice akan melakukan scanning port pada host Knight melalui command netcat. Untuk itu pertama kita
 jalankan beberapa service pada Knight misalnya SSH, HTTP dan 7777 kosong sebagai uji.
+
+```sh
+#install dan setup openssh
+
+apk add openssh
+
+ssh-keygen -A
+
+/usr/sbin/sshd
+
+#setup http server
+mkdir -p /var/wwww
+
+httpd -p 80 -h /var/www
+
+
+#cek port apakh terbuka
+netstat -tlnp
+```
 
 ![image-33](Attachments/image-33.png)
 
@@ -444,6 +481,8 @@ nc -zv 10.69.3.2 80
 nc -zv 10.69.3.2 7777
 ```
 
+untuk mengecek apakah port terbuka jika dari host Alice
+
 ![image-32](Attachments/image-32.png)
 
 kemudian capture dan lihat bagaimana hasilnya
@@ -452,7 +491,44 @@ kemudian capture dan lihat bagaimana hasilnya
 
 ## 13. Koneksi OpenSSH
 
-![image-12](Attachments/image-12.png) ![image-13](Attachments/image-13.png)
+![image-12](Attachments/image-12.png)
+
+Proses pembuatan pasangan kunci SSH pada node Mika untuk user mika_admin menggunakan ssh-keygen -t
+ed25519. Kunci disimpan di /home/mika_admin/.ssh/ dengan nama id_ed25519 (private key) dan
+id_ed25519.pub (public key). Karena menggunakan opsi -N "", kunci dibuat tanpa passphrase sehingga
+bisa dipakai untuk login otomatis tanpa prompt password.
+
+```sh
+adduser -D mika_admin
+
+
+su - mika_admin
+```
+
+![image-13](Attachments/image-13.png)
+
+koneksi SSH dari node Mika ke node Knights (ssh mika_admin@10.69.3.2) yang berhasil masuk tanpa
+diminta password. Setelah masuk ke prompt Knights:~$, dilakukan uji konektivitas dengan ping 1.1.1.1
+yang menghasilkan 0% packet loss.
+
+### Revisi
+
+Sesuai ketentuan soal yaitu konfigurasi `PasswordAuthentication no` sehingga tidak perlu set
+password di awal
+
+```sh
+# Di Node Mika
+ssh-keygen -t ed25519 -C "mika_admin" -f ~/.ssh/id_ed25519 -N ""
+ssh-copy-id -i ~/.ssh/id_ed25519.pub mika_admin@10.10.3.2
+
+# Di Node Knights
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+rc-service sshd restart
+
+# Uji koneksi tanpa password
+ssh mika_admin@10.10.3.2
+ping 1.1.1.1
+```
 
 ## 14. Brute force form login web Alice
 
