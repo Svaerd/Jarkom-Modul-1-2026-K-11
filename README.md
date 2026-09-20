@@ -2,10 +2,10 @@
 
 ## Anggota Kelompok
 
-| Nama                | NRP        |
-| ------------------- | ---------- |
-| Hasheemi Rafsanjani | 5027251015 |
-| Husam Danish        | 5027251060 |
+| Nama                | NRP        | Pembagian Soal   | Pembagian Jobdesk                                                      |
+| ------------------- | ---------- | ---------------- | ---------------------------------------------------------------------- |
+| Hasheemi Rafsanjani | 5027251015 | 7-14, 16, 18, 20 | Main Solver (menyelesaikan sebagian besar tantangan/soal)              |
+| Husam Danish        | 5027251060 | 1-6, 15, 17, 19  | Main Editor (Resolve git conflict dan melakukan editing serta koreksi) |
 
 ## Laporan
 
