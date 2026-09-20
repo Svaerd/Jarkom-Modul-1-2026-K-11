@@ -213,7 +213,7 @@ Packet sniffing menggunakan wireshark, dengan filter `dns or icmp` :
 
 ## 7. Setup FTP Server
 
-Di node Chisa
+### Di node Chisa
 
 ```sh
 apk add vsftpd
@@ -240,12 +240,15 @@ echo "eiri:password123" | chpasswd
 
 ```
 
-Setelah itu buat user di node Chisa sebagai user yang bisa akses ke FTP nantinya, set password
-sederhana
+Setelah itu buat user di node Chisa sebagai user yang bisa akses ke FTP nantinya, set password sederhana.
 
+Masuk ke Editor, `nano`:
 ```sh
 nano /etc/vsftpd/vsftpd.conf
+```
 
+isi `/etc/vsftpd/vsftpd.conf`:
+```conf
 #config vsftpd.conf
 anonymous_enable=NO
 local_enable=YES
@@ -257,7 +260,10 @@ userlist_enable=YES
 userlist_file=/etc/vsftpd.user_list
 userlist_deny=NO
 seccomp_sandbox=NO
+```
 
+Setup konfigurasi untuk hak akses di FTP dan registrasi ke usernya:
+```
 mkdir -p /etc/vsftpd/user_conf
 
 echo "write_enable=YES" > /etc/vsftpd/user_conf/alice
@@ -276,16 +282,12 @@ cat /etc/vsftpd.user_list
 
 ```
 
-Setup konfigurasi untuk hak akses di FTP dan registrasi ke usernya
-
+Jalankan FTP Servernya di background:
 ```sh
 vsftpd /etc/vsftpd/vsftpd.conf &
 ```
 
-Jalankan FTP Servernya di background
-
-Beralih node Alice
-
+### Beralih node Alice
 ```sh
 apk add lftp
 ```
@@ -321,24 +323,19 @@ put signal_alice.txt
 Jika berhasil maka akan keluar pesan seperti `205 bytes transferred`
 
 ## 8. Upload file ke FTP Server Chisa dari Knight
+### Di Node Chisa
+Pastikan sedang berada pada `root` Node Chisa dan `FTP Server` sudah berjalan di *background* pada Node Chisa. Kemudian, buat file `knight_report.txt` sesuai dengan ketentuan soal:
+```sh
+nano knight_report.txt
+```
 
-Di node Knight, masuk ke FTP Chisa menggunakan akun dan kredensial Alice
-
+### Di node Knight
+Masuk ke FTP Chisa menggunakan akun dan kredensial Alice
 ```sh
 lftp -u alice,password123 10.69.2.2
 ```
 
-Keluar dari FTP , buat file `knight_report.txt` sesuai dengan ketentuan soal
-
-```sh
-touch knight_report.txt
-
-nano knight_report.txt
-```
-
-Start Capture dari Chisa untuk membuka Wireshark, kemudian baru masuk ke FTP lagi dan jalankan
-perintah
-
+Start Capture dari Chisa untuk membuka Wireshark, kemudian baru masuk ke FTP lagi dan jalankan perintah:
 ```sh
 put knight_report.txt
 ```
@@ -496,10 +493,12 @@ kemudian capture dan lihat bagaimana hasilnya
 
 ![image-12](Attachments/image-12.png)
 
-Proses pembuatan pasangan kunci SSH pada node Mika untuk user mika_admin menggunakan ssh-keygen -t
-ed25519. Kunci disimpan di /home/mika_admin/.ssh/ dengan nama id_ed25519 (private key) dan
-id_ed25519.pub (public key). Karena menggunakan opsi -N "", kunci dibuat tanpa passphrase sehingga
-bisa dipakai untuk login otomatis tanpa prompt password.
+Proses pembuatan pasangan kunci SSH pada node Mika untuk user mika_admin menggunakan: 
+```sh
+ssh-keygen -t ed25519
+```
+
+Kunci disimpan di /home/mika_admin/.ssh/ dengan nama id_ed25519 (private key) dan `id_ed25519.pub` (public key). Karena menggunakan opsi -N "", kunci dibuat tanpa passphrase sehingga bisa dipakai untuk login otomatis tanpa prompt password.
 
 ```sh
 adduser -D mika_admin
@@ -511,7 +510,7 @@ su - mika_admin
 ![image-13](Attachments/image-13.png)
 
 koneksi SSH dari node Mika ke node Knights (ssh mika_admin@10.69.3.2) yang berhasil masuk tanpa
-diminta password. Setelah masuk ke prompt Knights:~$, dilakukan uji konektivitas dengan ping 1.1.1.1
+diminta password. Setelah masuk ke prompt `Knights:~$`, dilakukan uji konektivitas dengan ping 1.1.1.1
 yang menghasilkan 0% packet loss.
 
 ### Revisi
